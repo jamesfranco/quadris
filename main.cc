@@ -1,4 +1,7 @@
+#include <string>
 #include <iostream>
 using namespace std;
-cout << "Hello World. How are you?";
 
+int main (){
+
+}
