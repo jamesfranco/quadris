@@ -38,9 +38,14 @@ void textdraw (){
 
 int main (){
   set();
+  string input;
   IBlock *block1 = new IBlock();
   while (!leaveGame){
     textdraw();
+    while (cin >> input){
+      if (input = )
+
+    }
   }
   return 0;
 }
