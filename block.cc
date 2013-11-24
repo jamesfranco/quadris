@@ -14,14 +14,7 @@ class Block {
   Posn position[4];
   Posn nextposition[4];
 
-  void clockwise(){
-  	int temp = 0;
-  	for (int i=0; i < 4; i++){
-  	  temp = position[i].x;
-  	  nextposition[i].x = bottomleft.x + position[i].y - bottomright.y;
-  	  nextposition[i].y = bottomleft.y - temp + bottomright.x;
-    }
-  }
+
   void updateCorners() {
     bottomleft={9,11};
     bottomright={0,11};
@@ -40,9 +33,9 @@ class Block {
   }
   void placeBlock() {
     for (int i=0; i < 4; i++){
+      board[position[i].x][position[i].y]=" ";
       position[i] = nextposition[i];
       board[position[i].x][position[i].y] = blockType;
-      cout << position[i].x << position[i].y << endl;
     }
   }
 
@@ -58,7 +51,7 @@ class Block {
     return false;
   }
 
-  void endMove() {
+  void spawn() {
     if (!collision()) {
       placeBlock();
     }else {
@@ -68,22 +61,76 @@ class Block {
 
   //Block();
   //~Block();
-  void drop();
-  void down();
-  void left();
-  void right();
-  void counterclockwise();
+  void drop() {
+    while (!collision()) {
+      for (int i=0; i < 4; i++){
+        nextposition[i].y -= 1;
+      }
+    }
+    for (int i=0; i < 4; i++){
+      nextposition[i].y += 1;
+    }
+    placeBlock();
+  };
+
+  void down() {
+    for (int i=0; i < 4; i++){
+      nextposition[i].y -= 1;
+    }
+    if (!collision()) {
+      placeBlock();
+    }
+  };
+  void left() {
+    for (int i=0; i < 4; i++){
+      nextposition[i].x -= 1;
+    }
+    if (!collision()) {
+      placeBlock();
+    }
+  };
+  void right() {
+    for (int i=0; i < 4; i++){
+      nextposition[i].x += 1;
+    }
+    if (!collision()) {
+      placeBlock();
+    }
+  };
+
+  void clockwise(){
+    int temp;
+    for (int i=0; i < 4; i++){
+      temp = position[i].x;
+      nextposition[i].x = bottomleft.x + position[i].y - bottomright.y;
+      nextposition[i].y = bottomleft.y - temp + bottomright.x;
+    }
+    if (!collision()) {
+      placeBlock();
+    }
+  }
+  void counterclockwise() {
+    int temp;
+    for (int i=0; i < 4; i++){
+      temp = position[i].x;
+      nextposition[i].x = bottomleft.x + position[i].y - bottomright.y;
+      nextposition[i].y = bottomleft.y - temp + bottomright.x;
+    }
+    if (!collision()) {
+      placeBlock();
+    }
+  };
 };
 
 class IBlock : public Block {
  public:
   IBlock(){
-    this->blockType="I";        
+    this->blockType="I";
     this->nextposition[0]={0,11};
     this->nextposition[1]={1,11};
     this->nextposition[2]={2,11};
     this->nextposition[3]={3,11};
-    endMove();
+    spawm();
   }
 };
 
@@ -95,67 +142,67 @@ class JBlock : public Block {
     this->nextposition[1]={0,10};
     this->nextposition[2]={1,10};
     this->nextposition[3]={2,10};
-    endMove();
+    spawm();
   }
 };
 
 class LBlock : public Block {
  public:
   LBlock(){
-    this->blockType="L"; 
+    this->blockType="L";
     this->nextposition[0]={2,11};
     this->nextposition[1]={0,10};
     this->nextposition[2]={1,10};
     this->nextposition[3]={2,10};
-    endMove();
+    spawm();
   }
 };
 
 class OBlock : public Block {
  public:
   OBlock(){
-    this->blockType="O"; 
+    this->blockType="O";
     this->nextposition[0]={0,11};
     this->nextposition[1]={0,10};
     this->nextposition[2]={1,11};
     this->nextposition[3]={1,10};
-    endMove();
+    spawm();
   }
 };
 
 class SBlock : public Block {
  public:
   SBlock(){
-    this->blockType="S"; 
+    this->blockType="S";
     this->nextposition[0]={0,10};
     this->nextposition[1]={1,10};
     this->nextposition[2]={1,11};
     this->nextposition[3]={2,10};
-    endMove();
+    spawm();
   }
 };
 
 class ZBlock : public Block {
  public:
   ZBlock(){
-    this->blockType="Z"; 
+    this->blockType="Z";
     this->nextposition[0]={0,11};
     this->nextposition[1]={1,11};
     this->nextposition[2]={1,10};
     this->nextposition[3]={2,10};
-    endMove();
+    spawm();
   }
 };
 
 class TBlock : public Block {
  public:
   TBlock(){
-    this->blockType="T"; 
+    this->blockType="T";
     this->nextposition[0]={0,11};
     this->nextposition[1]={1,11};
     this->nextposition[2]={2,11};
     this->nextposition[3]={1,10};
-    endMove();
+    spawm();
   }
 };
 
