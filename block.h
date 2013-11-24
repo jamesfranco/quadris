@@ -37,9 +37,18 @@ class Block {
       }
     }
   }
-  void setMove {
+  void placeBlock() {
+    for (int i=0; i++; i < 4){
+      position[i] = nextposition[i];
+    }
+  }
 
-
+  void endMove() {
+    if collision? {
+      placeBlock();
+    }else {
+      lose();
+    }
   }
   bool collision?() {
     for (int i=0; i++; i < 4){
@@ -71,8 +80,7 @@ class IBlock : public Block {
     this->nextposition[1]={1,11};
     this->nextposition[2]={2,11};
     this->nextposition[3]={3,11};
-    if
-    updateCorners();
+    endMove();
   }
 };
 
@@ -82,7 +90,7 @@ class JBlock : public Block {
     this->nextposition[1]={0,10};
     this->nextposition[2]={1,10};
     this->nextposition[3]={2,10};
-    updateCorners();
+    endMove();
   }
 };
 
@@ -92,7 +100,7 @@ class LBlock : public Block {
     this->nextposition[1]={0,10};
     this->nextposition[2]={1,10};
     this->nextposition[3]={2,10};
-    updateCorners();
+    endMove();
   }
 };
 
@@ -102,7 +110,7 @@ class OBlock : public Block {
     this->nextposition[1]={0,10};
     this->nextposition[2]={1,11};
     this->nextposition[3]={1,10};
-    updateCorners();
+    endMove();
   }
 };
 
@@ -112,7 +120,7 @@ class Sblock : public Block {
     this->nextposition[1]={1,10};
     this->nextposition[2]={1,11};
     this->nextposition[3]={2,10};
-    updateCorners();
+    endMove();
   }
 };
 
@@ -122,7 +130,7 @@ class ZBlock : public Block {
     this->nextposition[1]={1,11};
     this->nextposition[2]={1,10;
     this->nextposition[3]={2,10};
-    updateCorners();
+    endMove();
   }
 };
 
@@ -132,7 +140,7 @@ class Tblock : public Block {
     this->nextposition[1]={1,11};
     this->nextposition[2]={2,11};
     this->nextposition[3]={1,10};
-    updateCorners();
+    endMove();
   }
 };
 
