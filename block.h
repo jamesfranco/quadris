@@ -67,70 +67,71 @@ class Block {
 
 class IBlock : public Block {
   IBlock(){
-    this->position[0]={0,11};
-    this->position[1]={1,11};
-    this->position[2]={2,11};
-    this->position[3]={3,11};
+    this->nextposition[0]={0,11};
+    this->nextposition[1]={1,11};
+    this->nextposition[2]={2,11};
+    this->nextposition[3]={3,11};
+    if
     updateCorners();
   }
 };
 
 class JBlock : public Block {
   JBlock(){
-    this->position[0]={0,11};
-    this->position[1]={0,10};
-    this->position[2]={1,10};
-    this->position[3]={2,10};
+    this->nextposition[0]={0,11};
+    this->nextposition[1]={0,10};
+    this->nextposition[2]={1,10};
+    this->nextposition[3]={2,10};
     updateCorners();
   }
 };
 
 class LBlock : public Block {
   LBlock(){
-    this->position[0]={2,11};
-    this->position[1]={0,10};
-    this->position[2]={1,10};
-    this->position[3]={2,10};
+    this->nextposition[0]={2,11};
+    this->nextposition[1]={0,10};
+    this->nextposition[2]={1,10};
+    this->nextposition[3]={2,10};
     updateCorners();
   }
 };
 
 class OBlock : public Block {
   OBlock(){
-    this->position[0]={0,11};
-    this->position[1]={0,10};
-    this->position[2]={1,11};
-    this->position[3]={1,10};
+    this->nextposition[0]={0,11};
+    this->nextposition[1]={0,10};
+    this->nextposition[2]={1,11};
+    this->nextposition[3]={1,10};
     updateCorners();
   }
 };
 
 class Sblock : public Block {
   SBlock(){
-    this->position[0]={0,10};
-    this->position[1]={1,10};
-    this->position[2]={1,11};
-    this->position[3]={2,10};
+    this->nextposition[0]={0,10};
+    this->nextposition[1]={1,10};
+    this->nextposition[2]={1,11};
+    this->nextposition[3]={2,10};
     updateCorners();
   }
 };
 
 class ZBlock : public Block {
   ZBlock(){
-    this->position[0]={0,11};
-    this->position[1]={1,11};
-    this->position[2]={1,10;
-    this->position[3]={2,10};
+    this->nextposition[0]={0,11};
+    this->nextposition[1]={1,11};
+    this->nextposition[2]={1,10;
+    this->nextposition[3]={2,10};
     updateCorners();
   }
 };
 
 class Tblock : public Block {
   TBlock(){
-    this->position[0]={0,11};
-    this->position[1]={1,11};
-    this->position[2]={2,11};
-    this->position[3]={1,10};
+    this->nextposition[0]={0,11};
+    this->nextposition[1]={1,11};
+    this->nextposition[2]={2,11};
+    this->nextposition[3]={1,10};
     updateCorners();
   }
 };
