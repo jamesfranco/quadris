@@ -56,7 +56,7 @@ int main (){
       } else if (input == "drop"){
         block1->drop();
       } else if (input == "levelup") {
-        if (level <= 3) { 
+        if (level <= 3) {
           level++;
         }
       } else if (input == "leveldown"){

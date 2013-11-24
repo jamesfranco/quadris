@@ -40,12 +40,20 @@ class Block {
   }
 
   bool collision() {
+    bool falseCollision = false;
     for (int i=0; i < 4; i++){
       if (nextposition[i].x < 0 || nextposition[i].x > 14 || nextposition[i].y < 0) {
         return true;
       }
-      if (board[nextposition[i].x][nextposition[i].y] != " " ) {
-        return true;
+      if (board[nextposition[i].x][nextposition[i].y] != " ") {
+        for (int j=0; j < 4; j++){
+          if (nextposition[i].x == position[j].x && nextposition[i].y == position[j].y) {
+            falseCollision = true;
+          }
+        }
+        if (!falseCollision) {
+          return true;
+        }
       }
     }
     return false;
