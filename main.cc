@@ -12,7 +12,6 @@ void set(){
       board[i][j] = " ";
     }
   }
-  // board[5][0] = "L";
 }
 
 #include "block.cc"
@@ -33,14 +32,14 @@ void textdraw (){
       cout << endl;
     }
   cout << "----------" << endl;
-  cout << "Next: " << endl;
+  cout << "Next: " << endl << endl;
 }
 
 void clearLines(){
   bool lineCleared = true;
   for (int i = 0; i < 15; i++){
-  	for (int j =  0; j < 10; j++)
-      if (board[j][i] = " "){
+  	for (int j =  0; j < 10; j++){
+      if (board[j][i] == " "){
         
       }
     } 
@@ -50,8 +49,11 @@ void clearLines(){
 int main (){
   set();
   string input;
-  IBlock *block1 = new IBlock();
+  TBlock *block1 = new TBlock();
   while (!leaveGame){
+    for (int i=0;i<4;i++){
+      cout << "blocks x:" << block1->position[i].x << " y:" << block1->position[i].y << endl;
+    }
     textdraw();
     if (cin >> input){
       if (input == "left"){

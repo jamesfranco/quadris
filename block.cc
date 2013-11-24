@@ -3,8 +3,20 @@
 
 struct Posn{
 	int x;
-	int y;
+	int y;  
 };
+
+//to compare two posns; ex: if (posn1 == posn2){...}
+bool operator==(const Posn& lhs, const Posn& rhs) {
+    if (lhs.x == rhs.x && lhs.y == rhs.y) return true;
+    else return false;
+}
+
+//to compare two posns; ex: if (posn1 != posn2){...}
+bool operator!=(const Posn& lhs, const Posn& rhs) {
+    if (lhs.x != rhs.x || lhs.y != rhs.y) return true;
+    else return false;
+}
 
 class Block {
  public:
@@ -16,8 +28,6 @@ class Block {
 
 
   void updateCorners() {
-    bottomleft={9,11};
-    bottomright={0,11};
     for (int i=0; i < 4; i++){
       if (position[i].y < bottomleft.y) {
         bottomleft.y = position[i].y;
@@ -33,27 +43,29 @@ class Block {
   }
   void placeBlock() {
     for (int i=0; i < 4; i++){
-      board[position[i].x][position[i].y]=" ";
+      board[position[i].x][position[i].y] = " ";
       position[i] = nextposition[i];
       board[position[i].x][position[i].y] = blockType;
+      updateCorners();
+    }
+  }
+
+  void resetBlock(){
+    for (int i=0; i < 4; i++){
+      nextposition[i]=position[i];
     }
   }
 
   bool collision() {
-    bool falseCollision = false;
-    for (int i=0; i < 4; i++){
-      if (nextposition[i].x < 0 || nextposition[i].x > 14 || nextposition[i].y < 0) {
+    for (int i=0; i < 4; i++){ 
+      //checks if nextposition goes out of bounds
+      if (nextposition[i].x < 0 || nextposition[i].x > 9 || nextposition[i].y < 0) {
         return true;
       }
-      if (board[nextposition[i].x][nextposition[i].y] != " ") {
-        for (int j=0; j < 4; j++){
-          if (nextposition[i].x == position[j].x && nextposition[i].y == position[j].y) {
-            falseCollision = true;
-          }
-        }
-        if (!falseCollision) {
-          return true;
-        }
+
+      //checks if nextposition is occupied by a block
+      if (board[nextposition[i].x][nextposition[i].y] != " " && nextposition[i] != position[0] && nextposition[i] != position[1] && nextposition[i] != position[2] && nextposition[i] != position[3]) {
+        return true;
       }
     }
     return false;
@@ -62,8 +74,8 @@ class Block {
   void spawn() {
     if (!collision()) {
       placeBlock();
-    }else {
-      // lose();
+    } else {
+      leaveGame = true;
     }
   }
 
@@ -76,7 +88,7 @@ class Block {
       }
     }
     for (int i=0; i < 4; i++){
-      nextposition[i].y += 1;
+        nextposition[i].y += 1;
     }
     placeBlock();
   }
@@ -85,9 +97,12 @@ class Block {
     for (int i=0; i < 4; i++){
       nextposition[i].y -= 1;
     }
-    //cout << collision() << endl;
+
+    cout << "DOWN COLLISION: (1 is true, 0 false): " << collision() << endl;
     if (!collision()) {
       placeBlock();
+    } else {
+      resetBlock();
     }
   }
 
@@ -95,8 +110,12 @@ class Block {
     for (int i=0; i < 4; i++){
       nextposition[i].x -= 1;
     }
+
+    cout << "LEFT COLLISION: (1 is true, 0 false): " << collision() << endl;
     if (!collision()) {
       placeBlock();
+    } else {
+      resetBlock();
     }
   }
 
@@ -104,9 +123,11 @@ class Block {
     for (int i=0; i < 4; i++){
       nextposition[i].x += 1;
     }
-    //cout << collision();
+    cout << "RIGHT COLLISION: (1 is true, 0 false): " << collision() << endl;
     if (!collision()) {
       placeBlock();
+    } else {
+      resetBlock();
     }
   }
 
@@ -117,8 +138,11 @@ class Block {
       nextposition[i].x = bottomleft.x + position[i].y - bottomright.y;
       nextposition[i].y = bottomleft.y - temp + bottomright.x;
     }
+    cout << "CLOCKWISE COLLISION: (1 is true, 0 false): " << collision() << endl;
     if (!collision()) {
       placeBlock();
+    } else {
+      resetBlock();
     }
   }
 
@@ -131,9 +155,13 @@ class Block {
     }
     if (!collision()) {
       placeBlock();
+    } else {
+      resetBlock();
     }
   }
 };
+
+
 
 class IBlock : public Block {
  public:
@@ -215,7 +243,7 @@ class TBlock : public Block {
     this->nextposition[1]={1,11};
     this->nextposition[2]={2,11};
     this->nextposition[3]={1,10};
-    spawn();
+    spawn();      
   }
 };
 
