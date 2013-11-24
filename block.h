@@ -17,23 +17,23 @@ class Block {
   	int temp = 0;
   	for (int i=0; i++; i < 4){
   	  temp = position[i].x;
-  	  nextposition[i].x = bottomleft.x + position[i].y - bottomright.y;
-  	  nextposition[i].y = bottomleft.y - temp + bottomright.x;
+  	  nextposition[i]->x = bottomleft.x + position[i]->y - bottomright.y;
+  	  nextposition[i]->y = bottomleft.y - temp + bottomright.x;
     }
   }
   void updateCorners() {
     bottomleft={9,11};
     bottomright={0,11};
     for (int i=0; i++; i < 4){
-      if position[i].y < bottomleft.y {
-        bottomleft.y = position[i].y;
-        bottomright.y = position[i].y;
+      if position[i]->y < bottomleft.y {
+        bottomleft.y = position[i]->y;
+        bottomright.y = position[i]->y;
       }
-      if position[i].x > bottomright.x {
-        bottomright.x = position[i].x;
+      if position[i]->x > bottomright.x {
+        bottomright.x = position[i]->x;
       }
-      if position[i].x < bottomleft.x {
-        bottomleft.x = position[i].x;
+      if position[i]->x < bottomleft.x {
+        bottomleft.x = position[i]->x;
       }
     }
   }
@@ -52,10 +52,10 @@ class Block {
   }
   bool collision?() {
     for (int i=0; i++; i < 4){
-      if nextposition[i].x < 0 || nextposition[i].x > 14 || nextposition[i].y < 0 {
+      if nextposition[i]->x < 0 || nextposition[i]->x > 14 || nextposition[i]->y < 0 {
         return true;
       }
-      if board[nextposition[i].x][nextposition[i].y] != -1 {
+      if board[nextposition[i]->x][nextposition[i]->y] != -1 {
         return true;
       }
     }
