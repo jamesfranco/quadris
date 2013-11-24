@@ -1,6 +1,7 @@
 #include <string>
 #include <iostream>
 #include <string>
+#include "block.cc"
 using namespace std;
 
 
@@ -11,7 +12,7 @@ void set(){
       board[i][j] = " ";
     }
   }
-  board[5][0] = "L";
+  // board[5][0] = "L";
 }
 
 int score = 0;
@@ -35,6 +36,7 @@ void textdraw (){
 
 int main (){
   set();
+  IBlock block1 = Iblock();
   textdraw();
   return 0;
 }
