@@ -6,31 +6,57 @@ struct Posn{
 	int y;
 }
 
-
-//corners[0] top left
-//corners[1] bottom left
-//corners[2] bottom right
 class Block {
+ public:
   Posn bottomright;
   Posn bottomleft;
   Posn * position[4];
-  
+  Posn * nextposition[4];
+
   void clockwise(){
   	int temp = 0;
   	for (int i=0; i++; i < 4){
-  	  position[i].x-=bottomright.x;
-  	  position[i].y-=bottomright.y;
-  	  temp=position[i].x;
-  	  position[i].x = position[i].y;
-  	  position[i].y = -temp;
+  	  temp = position[i].x;
+  	  nextposition[i].x = bottomleft.x + position[i].y - bottomright.y;
+  	  nextposition[i].y = bottomleft.y - temp + bottomright.x;
     }
   }
+  void updateCorners() {
+    bottomleft={9,11};
+    bottomright={0,11};
+    for (int i=0; i++; i < 4){
+      if position[i].y < bottomleft.y {
+        bottomleft.y = position[i].y;
+        bottomright.y = position[i].y;
+      }
+      if position[i].x > bottomright.x {
+        bottomright.x = position[i].x;
+      }
+      if position[i].x < bottomleft.x {
+        bottomleft.x = position[i].x;
+      }
+    }
+  }
+  void setMove {
 
- public:
+
+  }
+  bool collision?() {
+    for (int i=0; i++; i < 4){
+      if nextposition[i].x < 0 || nextposition[i].x > 14 || nextposition[i].y < 0 {
+        return true;
+      }
+      if board[nextposition[i].x][nextposition[i].y] != -1 {
+        return true;
+      }
+    }
+    return false;
+  }
+
   Block();
   ~Block();
   boolean collision();
-  void 
+  void
   void drop();
   void down();
   void left();
@@ -41,37 +67,72 @@ class Block {
 
 class IBlock : public Block {
   IBlock(){
-  	bottomleft={0,11};
-  	bottomright={3,11};
-    this->position[0]={0,11;
+    this->position[0]={0,11};
     this->position[1]={1,11};
     this->position[2]={2,11};
-    this->position[3]=[3,11];
+    this->position[3]={3,11};
+    updateCorners();
   }
 };
 
 class JBlock : public Block {
-
+  JBlock(){
+    this->position[0]={0,11};
+    this->position[1]={0,10};
+    this->position[2]={1,10};
+    this->position[3]={2,10};
+    updateCorners();
+  }
 };
 
 class LBlock : public Block {
-
+  LBlock(){
+    this->position[0]={2,11};
+    this->position[1]={0,10};
+    this->position[2]={1,10};
+    this->position[3]={2,10};
+    updateCorners();
+  }
 };
 
 class OBlock : public Block {
-
+  OBlock(){
+    this->position[0]={0,11};
+    this->position[1]={0,10};
+    this->position[2]={1,11};
+    this->position[3]={1,10};
+    updateCorners();
+  }
 };
 
 class Sblock : public Block {
-
+  SBlock(){
+    this->position[0]={0,10};
+    this->position[1]={1,10};
+    this->position[2]={1,11};
+    this->position[3]={2,10};
+    updateCorners();
+  }
 };
 
 class ZBlock : public Block {
-
+  ZBlock(){
+    this->position[0]={0,11};
+    this->position[1]={1,11};
+    this->position[2]={1,10;
+    this->position[3]={2,10};
+    updateCorners();
+  }
 };
 
 class Tblock : public Block {
-
+  TBlock(){
+    this->position[0]={0,11};
+    this->position[1]={1,11};
+    this->position[2]={2,11};
+    this->position[3]={1,10};
+    updateCorners();
+  }
 };
 
 #endif
