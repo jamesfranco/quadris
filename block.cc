@@ -17,8 +17,8 @@ class Block {
   	int temp = 0;
   	for (int i=0; i++; i < 4){
   	  temp = position[i].x;
-  	  nextposition[i].x = bottomleft.x + position[i].y - bottomright.y;
-  	  nextposition[i].y = bottomleft.y - temp + bottomright.x;
+  	  nextposition[i]->x = bottomleft->x + position[i].y - bottomright.y;
+  	  nextposition[i]->y = bottomleft->y - temp + bottomright.x;
     }
   }
   void updateCorners() {
@@ -43,13 +43,6 @@ class Block {
     }
   }
 
-  void endMove() {
-    if (collision()) {
-      placeBlock();
-    }else {
-      lose();
-    }
-  }
   bool collision() {
     for (int i=0; i++; i < 4){
       if (nextposition[i].x < 0 || nextposition[i].x > 14 || nextposition[i].y < 0) {
@@ -62,18 +55,25 @@ class Block {
     return false;
   }
 
+  void endMove() {
+    if (collision()) {
+      placeBlock();
+    }else {
+      lose();
+    }
+  }
+
   Block();
   ~Block();
-  void
   void drop();
   void down();
   void left();
   void right();
-  void clockwise();
   void counterclockwise();
 };
 
 class IBlock : public Block {
+ public:
   IBlock(){
     this->nextposition[0]={0,11};
     this->nextposition[1]={1,11};
@@ -84,6 +84,7 @@ class IBlock : public Block {
 };
 
 class JBlock : public Block {
+ public:
   JBlock(){
     this->nextposition[0]={0,11};
     this->nextposition[1]={0,10};
@@ -94,6 +95,7 @@ class JBlock : public Block {
 };
 
 class LBlock : public Block {
+ public:
   LBlock(){
     this->nextposition[0]={2,11};
     this->nextposition[1]={0,10};
@@ -104,6 +106,7 @@ class LBlock : public Block {
 };
 
 class OBlock : public Block {
+ public: 
   OBlock(){
     this->nextposition[0]={0,11};
     this->nextposition[1]={0,10};
@@ -114,6 +117,7 @@ class OBlock : public Block {
 };
 
 class Sblock : public Block {
+ public: 
   SBlock(){
     this->nextposition[0]={0,10};
     this->nextposition[1]={1,10};
@@ -124,6 +128,7 @@ class Sblock : public Block {
 };
 
 class ZBlock : public Block {
+ public: 
   ZBlock(){
     this->nextposition[0]={0,11};
     this->nextposition[1]={1,11};
@@ -134,6 +139,7 @@ class ZBlock : public Block {
 };
 
 class Tblock : public Block {
+ public: 
   TBlock(){
     this->nextposition[0]={0,11};
     this->nextposition[1]={1,11};
