@@ -10,15 +10,15 @@ class Block {
  public:
   Posn bottomright;
   Posn bottomleft;
-  Posn * position[4];
-  Posn * nextposition[4];
+  Posn position[4];
+  Posn nextposition[4];
 
   void clockwise(){
   	int temp = 0;
   	for (int i=0; i++; i < 4){
   	  temp = position[i].x;
-  	  nextposition[i]->x = bottomleft->x + position[i].y - bottomright.y;
-  	  nextposition[i]->y = bottomleft->y - temp + bottomright.x;
+  	  nextposition[i].x = bottomleft.x + position[i].y - bottomright.y;
+  	  nextposition[i].y = bottomleft.y - temp + bottomright.x;
     }
   }
   void updateCorners() {
@@ -48,7 +48,7 @@ class Block {
       if (nextposition[i].x < 0 || nextposition[i].x > 14 || nextposition[i].y < 0) {
         return true;
       }
-      if (board[nextposition[i].x][nextposition[i].y] != -1) {
+      if (board[nextposition[i].x][nextposition[i].y] != " ") {
         return true;
       }
     }
@@ -59,12 +59,12 @@ class Block {
     if (collision()) {
       placeBlock();
     }else {
-      lose();
+      // lose();
     }
   }
 
-  Block();
-  ~Block();
+  //Block();
+  //~Block();
   void drop();
   void down();
   void left();
@@ -106,7 +106,7 @@ class LBlock : public Block {
 };
 
 class OBlock : public Block {
- public: 
+ public:
   OBlock(){
     this->nextposition[0]={0,11};
     this->nextposition[1]={0,10};
@@ -116,8 +116,8 @@ class OBlock : public Block {
   }
 };
 
-class Sblock : public Block {
- public: 
+class SBlock : public Block {
+ public:
   SBlock(){
     this->nextposition[0]={0,10};
     this->nextposition[1]={1,10};
@@ -128,18 +128,18 @@ class Sblock : public Block {
 };
 
 class ZBlock : public Block {
- public: 
+ public:
   ZBlock(){
     this->nextposition[0]={0,11};
     this->nextposition[1]={1,11};
-    this->nextposition[2]={1,10;
+    this->nextposition[2]={1,10};
     this->nextposition[3]={2,10};
     endMove();
   }
 };
 
-class Tblock : public Block {
- public: 
+class TBlock : public Block {
+ public:
   TBlock(){
     this->nextposition[0]={0,11};
     this->nextposition[1]={1,11};
