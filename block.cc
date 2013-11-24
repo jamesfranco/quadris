@@ -8,6 +8,7 @@ struct Posn{
 
 class Block {
  public:
+  string blockType;
   Posn bottomright;
   Posn bottomleft;
   Posn position[4];
@@ -15,7 +16,7 @@ class Block {
 
   void clockwise(){
   	int temp = 0;
-  	for (int i=0; i++; i < 4){
+  	for (int i=0; i < 4; i++){
   	  temp = position[i].x;
   	  nextposition[i].x = bottomleft.x + position[i].y - bottomright.y;
   	  nextposition[i].y = bottomleft.y - temp + bottomright.x;
@@ -24,7 +25,7 @@ class Block {
   void updateCorners() {
     bottomleft={9,11};
     bottomright={0,11};
-    for (int i=0; i++; i < 4){
+    for (int i=0; i < 4; i++){
       if (position[i].y < bottomleft.y) {
         bottomleft.y = position[i].y;
         bottomright.y = position[i].y;
@@ -38,13 +39,15 @@ class Block {
     }
   }
   void placeBlock() {
-    for (int i=0; i++; i < 4){
+    for (int i=0; i < 4; i++){
       position[i] = nextposition[i];
+      board[position[i].x][position[i].y] = blockType;
+      cout << position[i].x << position[i].y << endl;
     }
   }
 
   bool collision() {
-    for (int i=0; i++; i < 4){
+    for (int i=0; i < 4; i++){
       if (nextposition[i].x < 0 || nextposition[i].x > 14 || nextposition[i].y < 0) {
         return true;
       }
@@ -56,7 +59,7 @@ class Block {
   }
 
   void endMove() {
-    if (collision()) {
+    if (!collision()) {
       placeBlock();
     }else {
       // lose();
@@ -75,6 +78,7 @@ class Block {
 class IBlock : public Block {
  public:
   IBlock(){
+    this->blockType="I";        
     this->nextposition[0]={0,11};
     this->nextposition[1]={1,11};
     this->nextposition[2]={2,11};
@@ -86,6 +90,7 @@ class IBlock : public Block {
 class JBlock : public Block {
  public:
   JBlock(){
+    this->blockType="J";
     this->nextposition[0]={0,11};
     this->nextposition[1]={0,10};
     this->nextposition[2]={1,10};
@@ -97,6 +102,7 @@ class JBlock : public Block {
 class LBlock : public Block {
  public:
   LBlock(){
+    this->blockType="L"; 
     this->nextposition[0]={2,11};
     this->nextposition[1]={0,10};
     this->nextposition[2]={1,10};
@@ -108,6 +114,7 @@ class LBlock : public Block {
 class OBlock : public Block {
  public:
   OBlock(){
+    this->blockType="O"; 
     this->nextposition[0]={0,11};
     this->nextposition[1]={0,10};
     this->nextposition[2]={1,11};
@@ -119,6 +126,7 @@ class OBlock : public Block {
 class SBlock : public Block {
  public:
   SBlock(){
+    this->blockType="S"; 
     this->nextposition[0]={0,10};
     this->nextposition[1]={1,10};
     this->nextposition[2]={1,11};
@@ -130,6 +138,7 @@ class SBlock : public Block {
 class ZBlock : public Block {
  public:
   ZBlock(){
+    this->blockType="Z"; 
     this->nextposition[0]={0,11};
     this->nextposition[1]={1,11};
     this->nextposition[2]={1,10};
@@ -141,6 +150,7 @@ class ZBlock : public Block {
 class TBlock : public Block {
  public:
   TBlock(){
+    this->blockType="T"; 
     this->nextposition[0]={0,11};
     this->nextposition[1]={1,11};
     this->nextposition[2]={2,11};

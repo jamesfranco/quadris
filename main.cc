@@ -3,6 +3,7 @@
 #include <string>
 using namespace std;
 
+bool leaveGame = false;
 
 string board [10][15];
 void set(){
@@ -26,7 +27,7 @@ void textdraw (){
   cout << "HiScore: " << hiScore << endl;
   cout << "----------" << endl;
     for (int i = 14; i >= 0; i--){
-      for (int j = 9; j >= 0; j--){
+      for (int j = 0; j < 10; j++){
         cout << board[j][i];
       }
       cout << endl;
@@ -37,7 +38,9 @@ void textdraw (){
 
 int main (){
   set();
-  IBlock block1 = IBlock();
-  textdraw();
+  IBlock *block1 = new IBlock();
+  while (!leaveGame){
+    textdraw();
+  }
   return 0;
 }
