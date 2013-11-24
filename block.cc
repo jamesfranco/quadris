@@ -44,7 +44,7 @@ class Block {
       if (nextposition[i].x < 0 || nextposition[i].x > 14 || nextposition[i].y < 0) {
         return true;
       }
-      if (board[nextposition[i].x][nextposition[i].y] != " ") {
+      if (board[nextposition[i].x][nextposition[i].y] != " " ) {
         return true;
       }
     }
@@ -71,7 +71,7 @@ class Block {
       nextposition[i].y += 1;
     }
     placeBlock();
-  };
+  }
 
   void down() {
     for (int i=0; i < 4; i++){
@@ -80,7 +80,8 @@ class Block {
     if (!collision()) {
       placeBlock();
     }
-  };
+  }
+
   void left() {
     for (int i=0; i < 4; i++){
       nextposition[i].x -= 1;
@@ -88,7 +89,8 @@ class Block {
     if (!collision()) {
       placeBlock();
     }
-  };
+  }
+
   void right() {
     for (int i=0; i < 4; i++){
       nextposition[i].x += 1;
@@ -96,7 +98,7 @@ class Block {
     if (!collision()) {
       placeBlock();
     }
-  };
+  }
 
   void clockwise(){
     int temp;
@@ -109,6 +111,7 @@ class Block {
       placeBlock();
     }
   }
+
   void counterclockwise() {
     int temp;
     for (int i=0; i < 4; i++){
@@ -119,7 +122,7 @@ class Block {
     if (!collision()) {
       placeBlock();
     }
-  };
+  }
 };
 
 class IBlock : public Block {
@@ -130,7 +133,7 @@ class IBlock : public Block {
     this->nextposition[1]={1,11};
     this->nextposition[2]={2,11};
     this->nextposition[3]={3,11};
-    spawm();
+    spawn();
   }
 };
 
@@ -142,7 +145,7 @@ class JBlock : public Block {
     this->nextposition[1]={0,10};
     this->nextposition[2]={1,10};
     this->nextposition[3]={2,10};
-    spawm();
+    spawn();
   }
 };
 
@@ -154,7 +157,7 @@ class LBlock : public Block {
     this->nextposition[1]={0,10};
     this->nextposition[2]={1,10};
     this->nextposition[3]={2,10};
-    spawm();
+    spawn();
   }
 };
 
@@ -166,7 +169,7 @@ class OBlock : public Block {
     this->nextposition[1]={0,10};
     this->nextposition[2]={1,11};
     this->nextposition[3]={1,10};
-    spawm();
+    spawn();
   }
 };
 
@@ -178,7 +181,7 @@ class SBlock : public Block {
     this->nextposition[1]={1,10};
     this->nextposition[2]={1,11};
     this->nextposition[3]={2,10};
-    spawm();
+    spawn();
   }
 };
 
@@ -190,7 +193,7 @@ class ZBlock : public Block {
     this->nextposition[1]={1,11};
     this->nextposition[2]={1,10};
     this->nextposition[3]={2,10};
-    spawm();
+    spawn();
   }
 };
 
@@ -202,7 +205,7 @@ class TBlock : public Block {
     this->nextposition[1]={1,11};
     this->nextposition[2]={2,11};
     this->nextposition[3]={1,10};
-    spawm();
+    spawn();
   }
 };
 

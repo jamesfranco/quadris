@@ -42,9 +42,30 @@ int main (){
   IBlock *block1 = new IBlock();
   while (!leaveGame){
     textdraw();
-    while (cin >> input){
-      if (input = )
-
+    if (cin >> input){
+      if (input == "left"){
+      	block1->left();
+      } else if (input == "right"){
+        block1->right();
+      } else if (input == "down"){
+        block1->down();
+      } else if (input == "clockwise"){
+        block1->clockwise();
+      } else if (input == "counterclockwise"){
+        block1->counterclockwise();
+      } else if (input == "drop"){
+        block1->drop();
+      } else if (input == "levelup") {
+        if (level <= 3) { 
+          level++;
+        }
+      } else if (input == "leveldown"){
+        if (level >= 0) {
+          level--;
+        }
+      } else if (input == "restart"){
+        leaveGame = true;
+      }
     }
   }
   return 0;
