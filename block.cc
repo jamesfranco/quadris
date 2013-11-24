@@ -44,6 +44,8 @@ class Block {
   void placeBlock() {
     for (int i=0; i < 4; i++){
       board[position[i].x][position[i].y] = " ";
+    }
+    for (int i=0; i < 4; i++){
       position[i] = nextposition[i];
       board[position[i].x][position[i].y] = blockType;
       updateCorners();
