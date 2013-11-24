@@ -36,6 +36,17 @@ void textdraw (){
   cout << "Next: " << endl;
 }
 
+void clearLines(){
+  bool lineCleared = true;
+  for (int i = 0; i < 15; i++){
+  	for (int j =  0; j < 10; j++)
+      if (board[j][i] = " "){
+        
+      }
+    } 
+  }
+}
+
 int main (){
   set();
   string input;
@@ -56,7 +67,7 @@ int main (){
       } else if (input == "drop"){
         block1->drop();
       } else if (input == "levelup") {
-        if (level <= 3) {
+        if (level <= 3) { 
           level++;
         }
       } else if (input == "leveldown"){

@@ -85,6 +85,7 @@ class Block {
     for (int i=0; i < 4; i++){
       nextposition[i].y -= 1;
     }
+    //cout << collision() << endl;
     if (!collision()) {
       placeBlock();
     }
@@ -103,6 +104,7 @@ class Block {
     for (int i=0; i < 4; i++){
       nextposition[i].x += 1;
     }
+    //cout << collision();
     if (!collision()) {
       placeBlock();
     }
