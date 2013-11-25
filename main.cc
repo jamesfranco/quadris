@@ -7,7 +7,6 @@ using namespace std;
 bool leaveGame;
 string board [10][15];
 fstream level0("sequence.txt");
-string nextBlock;
 int score;
 int hiScore = 0;
 int level = 0;
@@ -62,21 +61,22 @@ void clearLines(){
 
 //sets the next block to be placed
 void newBlock() {
+  string currentBlock;
   if (level == 0){
-    if (level0 >> nextBlock) {
-      if (nextBlock == "I"){
+    if (level0 >> currentBlock) {
+      if (currentBlock == "I"){
         activeBlock = new IBlock(level);  
-      } else if (nextBlock == "J"){
+      } else if (currentBlock == "J"){
         activeBlock = new JBlock(level);
-      } else if (nextBlock == "L"){
+      } else if (currentBlock == "L"){
         activeBlock = new LBlock(level);
-      } else if (nextBlock == "O"){
+      } else if (currentBlock == "O"){
         activeBlock = new OBlock(level);
-      } else if (nextBlock == "S"){
+      } else if (currentBlock == "S"){
         activeBlock = new SBlock(level);
-      } else if (nextBlock == "Z"){
+      } else if (currentBlock == "Z"){
         activeBlock = new ZBlock(level);
-      }  else if (nextBlock == "T"){
+      }  else if (currentBlock == "T"){
         activeBlock = new TBlock(level);
       } 
     } else if (level0.fail()){
