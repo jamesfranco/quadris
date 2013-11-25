@@ -20,26 +20,33 @@ bool operator!=(const Posn& lhs, const Posn& rhs) {
 
 class Block {
  public:
+  int level;
   string blockType;
-  Posn bottomright;
-  Posn bottomleft;
+  Posn topLeft;
+  Posn bottomRight;
+  Posn bottomLeft;
   Posn position[4];
   Posn nextposition[4];
 
 
   void updateCorners() {
-    bottomright = {0,12};
-    bottomleft = {10,12};
+    bottomRight = {0,12};
+    bottomLeft = {10,12};
+    topLeft = {10,0};
     for (int i=0; i < 4; i++) {
-      if (position[i].y < bottomleft.y) {
-        bottomleft.y = position[i].y;
-        bottomright.y = position[i].y;
+      if (position[i].y < bottomLeft.y) {
+        bottomLeft.y = position[i].y;
+        bottomRight.y = position[i].y;
       }
-      if (position[i].x > bottomright.x) {
-        bottomright.x = position[i].x;
+      if (position[i].y > topLeft.y) {
+        topLeft.y = position[i].y;
+      } 
+      if (position[i].x > bottomRight.x) {
+        bottomRight.x = position[i].x;
       }
-      if (position[i].x < bottomleft.x) {
-        bottomleft.x = position[i].x;
+      if (position[i].x < bottomLeft.x) {
+        bottomLeft.x = position[i].x;
+        topLeft.x = position[i].x;
       }
     }
   }
@@ -135,11 +142,9 @@ class Block {
   }
 
   void clockwise(){
-    int temp;
-
     for (int i=0; i < 4; i++){
-      nextposition[i].x = bottomleft.x + position[i].y - bottomright.y;
-      nextposition[i].y = bottomleft.y - position[i].x + bottomright.x;
+      nextposition[i].x = bottomLeft.x + position[i].y - bottomRight.y;
+      nextposition[i].y = bottomLeft.y - position[i].x + bottomRight.x;
     }
     if (!collision()) {
       placeBlock();
@@ -149,10 +154,9 @@ class Block {
   }
 
   void counterclockwise() {
-    int temp;
     for (int i=0; i < 4; i++){
-      nextposition[i].x = bottomleft.y - position[i].y + bottomright.x;
-      nextposition[i].y = position[i].x + bottomright.y - bottomleft.x;
+      nextposition[i].x = -position[i].y + bottomLeft.x + topLeft.y;
+      nextposition[i].y =  position[i].x + bottomLeft.y - topLeft.x;
     }
     if (!collision()) {
       placeBlock();
@@ -166,7 +170,8 @@ class Block {
 
 class IBlock : public Block {
  public:
-  IBlock(){
+  IBlock(int level){
+    this->level = level;
     this->blockType="I";
     this->nextposition[0]={0,11};
     this->nextposition[1]={1,11};
@@ -178,7 +183,8 @@ class IBlock : public Block {
 
 class JBlock : public Block {
  public:
-  JBlock(){
+  JBlock(int level){
+    this->level = level;
     this->blockType="J";
     this->nextposition[0]={0,11};
     this->nextposition[1]={0,10};
@@ -190,7 +196,8 @@ class JBlock : public Block {
 
 class LBlock : public Block {
  public:
-  LBlock(){
+  LBlock(int level){
+    this->level = level;
     this->blockType="L";
     this->nextposition[0]={2,11};
     this->nextposition[1]={0,10};
@@ -202,7 +209,8 @@ class LBlock : public Block {
 
 class OBlock : public Block {
  public:
-  OBlock(){
+  OBlock(int level){
+    this->level = level;
     this->blockType="O";
     this->nextposition[0]={0,11};
     this->nextposition[1]={0,10};
@@ -210,11 +218,14 @@ class OBlock : public Block {
     this->nextposition[3]={1,10};
     spawn();
   }
+  void clockwise(){}
+  void counterclockwise(){}
 };
 
 class SBlock : public Block {
  public:
-  SBlock(){
+  SBlock(int level){
+    this->level = level;
     this->blockType="S";
     this->nextposition[0]={0,10};
     this->nextposition[1]={1,10};
@@ -226,7 +237,8 @@ class SBlock : public Block {
 
 class ZBlock : public Block {
  public:
-  ZBlock(){
+  ZBlock(int level){
+    this->level = level;
     this->blockType="Z";
     this->nextposition[0]={0,11};
     this->nextposition[1]={1,11};
@@ -238,7 +250,8 @@ class ZBlock : public Block {
 
 class TBlock : public Block {
  public:
-  TBlock(){
+  TBlock(int level){
+    this->level = level;
     this->blockType="T";
     this->nextposition[0]={0,11};
     this->nextposition[1]={1,11};
