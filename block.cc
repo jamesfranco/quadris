@@ -9,13 +9,13 @@ struct Posn{
 //to compare two posns; ex: if (posn1 == posn2){...}
 bool operator==(const Posn& lhs, const Posn& rhs) {
     if (lhs.x == rhs.x && lhs.y == rhs.y) return true;
-    else return false;
+  else return false;
 }
 
 //to compare two posns; ex: if (posn1 != posn2){...}
 bool operator!=(const Posn& lhs, const Posn& rhs) {
-    if (lhs.x != rhs.x || lhs.y != rhs.y) return true;
-    else return false;
+  if (lhs.x != rhs.x || lhs.y != rhs.y) return true;
+  else return false;
 }
 
 class Block {
@@ -28,7 +28,9 @@ class Block {
 
 
   void updateCorners() {
-    for (int i=0; i < 4; i++){
+    bottomright = {0,12};
+    bottomleft = {10,12};
+    for (int i=0; i < 4; i++) {
       if (position[i].y < bottomleft.y) {
         bottomleft.y = position[i].y;
         bottomright.y = position[i].y;
@@ -48,11 +50,11 @@ class Block {
     for (int i=0; i < 4; i++){
       position[i] = nextposition[i];
       board[position[i].x][position[i].y] = blockType;
-      updateCorners();
     }
+    updateCorners();
   }
 
-  void resetBlock(){
+  void resetBlock() {
     for (int i=0; i < 4; i++){
       nextposition[i]=position[i];
     }
@@ -75,7 +77,11 @@ class Block {
 
   void spawn() {
     if (!collision()) {
-      placeBlock();
+      for (int i=0; i < 4; i++){
+        position[i] = nextposition[i];
+        board[position[i].x][position[i].y] = blockType;
+      }
+      updateCorners();
     } else {
       leaveGame = true;
     }
@@ -85,7 +91,7 @@ class Block {
   //~Block();
   void drop() {
     while (!collision()) {
-      for (int i=0; i < 4; i++){
+      for (int i=0; i < 4; i++) {
         nextposition[i].y -= 1;
       }
     }
@@ -99,8 +105,6 @@ class Block {
     for (int i=0; i < 4; i++){
       nextposition[i].y -= 1;
     }
-
-    cout << "DOWN COLLISION: (1 is true, 0 false): " << collision() << endl;
     if (!collision()) {
       placeBlock();
     } else {
@@ -112,8 +116,6 @@ class Block {
     for (int i=0; i < 4; i++){
       nextposition[i].x -= 1;
     }
-
-    cout << "LEFT COLLISION: (1 is true, 0 false): " << collision() << endl;
     if (!collision()) {
       placeBlock();
     } else {
@@ -125,7 +127,6 @@ class Block {
     for (int i=0; i < 4; i++){
       nextposition[i].x += 1;
     }
-    cout << "RIGHT COLLISION: (1 is true, 0 false): " << collision() << endl;
     if (!collision()) {
       placeBlock();
     } else {
@@ -135,12 +136,11 @@ class Block {
 
   void clockwise(){
     int temp;
+
     for (int i=0; i < 4; i++){
-      temp = position[i].x;
       nextposition[i].x = bottomleft.x + position[i].y - bottomright.y;
-      nextposition[i].y = bottomleft.y - temp + bottomright.x;
+      nextposition[i].y = bottomleft.y - position[i].x + bottomright.x;
     }
-    cout << "CLOCKWISE COLLISION: (1 is true, 0 false): " << collision() << endl;
     if (!collision()) {
       placeBlock();
     } else {
@@ -151,9 +151,8 @@ class Block {
   void counterclockwise() {
     int temp;
     for (int i=0; i < 4; i++){
-      temp = position[i].x;
-      nextposition[i].x = bottomleft.x + position[i].y - bottomright.y;
-      nextposition[i].y = bottomleft.y - temp + bottomright.x;
+      nextposition[i].x = bottomleft.y - position[i].y + bottomright.x;
+      nextposition[i].y = position[i].x + bottomright.y - bottomleft.x;
     }
     if (!collision()) {
       placeBlock();
@@ -220,7 +219,7 @@ class SBlock : public Block {
     this->nextposition[0]={0,10};
     this->nextposition[1]={1,10};
     this->nextposition[2]={1,11};
-    this->nextposition[3]={2,10};
+    this->nextposition[3]={2,11};
     spawn();
   }
 };
