@@ -65,7 +65,7 @@ void newBlock() {
   if (level == 0){
     if (level0 >> currentBlock) {
       if (currentBlock == "I"){
-        activeBlock = new IBlock(level);  
+        activeBlock = new IBlock(level);
       } else if (currentBlock == "J"){
         activeBlock = new JBlock(level);
       } else if (currentBlock == "L"){
@@ -78,7 +78,7 @@ void newBlock() {
         activeBlock = new ZBlock(level);
       }  else if (currentBlock == "T"){
         activeBlock = new TBlock(level);
-      } 
+      }
     } else if (level0.fail()){
       level0.clear();
       level0.close();
@@ -103,34 +103,92 @@ void startGame(){
 
 int main (){
   string input;
+  string command;
+  string repetitions;
+  int repetitionNumber;
+  string commandArray[9];
+  commandArray[0] = "left";
+  commandArray[1] = "right";
+  commandArray[2] = "down";
+  commandArray[3] = "drop";
+  commandArray[4] = "clockwise";
+  commandArray[5] = "counterclockwise";
+  commandArray[6] = "levelup";
+  commandArray[7] = "leveldown";
+  commandArray[8] = "restart";
+
   startGame();
   textdraw();
   while (cin >> input){
-    if (input == "left" || input == "l"){
-    	activeBlock->left();
-    } else if (input == "right" || input == "r"){
-      activeBlock->right();
-    } else if (input == "down"|| input == "d"){
-      activeBlock->down();
-    } else if (input == "clockwise" || input == "c"){
-      activeBlock->clockwise();
-    } else if (input == "counterclockwise" || input == "cc"){
-      activeBlock->counterclockwise();
-    } else if (input == "drop" || input == "dr"){
-      activeBlock->drop();
-      clearLines();
-      newBlock();
-    } else if (input == "levelup") {
-      if (level < 3) { 
-        level++;
+    repetitionNumber = 1;
+    repetitions = "";
+    command = "";
+
+    if (isdigit(input[0])) {
+      for (int i=0; i < input.length(); i++){
+        if (isdigit(input[i])) {
+          repetitions += input[i];
+        } else {
+          input = input.substr(i);
+          break;
+        }
       }
-    } else if (input == "leveldown"){
-      if (level > 0) {
-        level--;
+      repetitionNumber = stoi(repetitions);
+    }
+
+    for (int i = 0; i < 9; i++) {
+      if (commandArray[i].find(input) == 0) {
+        if (command == "") {
+          command = commandArray[i];
+        } else {
+          command = "";
+          break;
+        }
       }
-    } else if (input == "restart"){
+    }
+
+    if (command == commandArray[0]) {
+      for (int i=0; i < repetitionNumber; i++){
+        activeBlock->left();
+      }
+    } else if (command == commandArray[1]) {
+      for (int i=0; i < repetitionNumber; i++){
+        activeBlock->right();
+      }
+    } else if (command == commandArray[2]) {
+      for (int i=0; i < repetitionNumber; i++){
+        activeBlock->down();
+      }
+    } else if (command == commandArray[3]) {
+      for (int i=0; i < repetitionNumber; i++){
+        activeBlock->drop();
+        clearLines();
+        newBlock();
+      }
+    } else if (command == commandArray[4]) {
+      for (int i=0; i < repetitionNumber; i++){
+        activeBlock->clockwise();
+      }
+    } else if (command == commandArray[5]) {
+      for (int i=0; i < repetitionNumber; i++){
+        activeBlock->counterclockwise();
+      }
+    } else if (command == commandArray[6]) {
+      for (int i=0; i < repetitionNumber; i++){
+        if (level < 3) {
+          level++;
+        }
+      }
+    } else if (command == commandArray[7]) {
+      for (int i=0; i < repetitionNumber; i++){
+        if (level > 0) {
+          level--;
+        }
+      }
+    } else if (command == commandArray[8]) {
       leaveGame = true;
     }
+
     if (leaveGame == true){
       startGame();
     }
