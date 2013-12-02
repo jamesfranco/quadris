@@ -2,8 +2,8 @@
 #define __BLOCK_H__
 
 struct Posn{
-	int x;
-	int y;  
+  int x;
+  int y;
 };
 
 //to compare two posns; ex: if (posn1 == posn2){...}
@@ -17,6 +17,30 @@ bool operator!=(const Posn& lhs, const Posn& rhs) {
   if (lhs.x != rhs.x || lhs.y != rhs.y) return true;
   else return false;
 }
+
+class PRNG {
+  uint32_t seed_;
+ public:
+  PRNG ( uint32_t s = 362436069){
+    seed_ = s;     //set seed
+  }
+  uint32_t seed(){  //read seed
+    return seed_;
+  }
+  void seed ( uint32_t s){      // reset seed
+    seed_ = s;                 //set seed
+  }
+  uint32_t operator()(){
+    seed_ = 36969*(seed_ & 65535)+(seed_ >> 16);   //scramble bits
+    return seed_;
+  }
+  uint32_t operator()(uint32_t u) {        //[0,u]
+    return operator()() % (u + 1);         //call operatir()()
+  }
+  uint32_t operator()(uint32_t I, uint32_t u){     //[I,u]
+    return operator()(u - I) + I;                 //call operator()( uint32_t )
+  }
+};
 
 class Block {
  public:
@@ -40,7 +64,7 @@ class Block {
       }
       if (position[i].y > topLeft.y) {
         topLeft.y = position[i].y;
-      } 
+      }
       if (position[i].x > bottomRight.x) {
         bottomRight.x = position[i].x;
       }
@@ -68,7 +92,7 @@ class Block {
   }
 
   bool collision() {
-    for (int i=0; i < 4; i++){ 
+    for (int i=0; i < 4; i++){
       //checks if nextposition goes out of bounds
       if (nextposition[i].x < 0 || nextposition[i].x > 9 || nextposition[i].y < 0) {
         return true;
@@ -257,7 +281,7 @@ class TBlock : public Block {
     this->nextposition[1]={1,11};
     this->nextposition[2]={2,11};
     this->nextposition[3]={1,10};
-    spawn();      
+    spawn();
   }
 };
 

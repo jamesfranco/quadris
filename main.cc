@@ -1,12 +1,17 @@
 #include <string>
 #include <iostream>
 #include <fstream>
-#include <string>
+#include "window.h"
+#include <sstream>
+#include <cmath>
 using namespace std;
 
 bool leaveGame;
 string board [10][15];
 fstream level0("sequence.txt");
+string nextBlock;
+Xwindow window;
+
 int score;
 int hiScore = 0;
 int level = 0;
@@ -14,6 +19,7 @@ int level = 0;
 #include "block.cc"
 
 Block *activeBlock;
+PRNG prng;
 
 void textdraw (){
   cout << "Level: " << level << endl;
@@ -27,15 +33,82 @@ void textdraw (){
       cout << endl;
     }
   cout << "----------" << endl;
-  cout << "Next: " << endl << endl;
+  cout << "Next: " << endl;
+  if (nextBlock == "I"){
+    cout << endl << "IIII" << endl;
+  } else if (nextBlock == "J"){
+    cout << "J" << endl << "JJJ" << endl;
+  } else if (nextBlock == "L"){
+    cout << "  L" << endl << "LLL" << endl;
+  } else if (nextBlock == "O"){
+    cout << "OO" << endl << "OO" << endl;
+  } else if (nextBlock == "S"){
+    cout << " SS" << endl << "SS" << endl;
+  } else if (nextBlock == "Z"){
+    cout << "ZZ" << endl << " ZZ" << endl;
+  } else if (nextBlock == "T"){
+    cout << "TTT" << endl << " T" << endl;
+  }
+}
+
+void graphicsDraw(){
+  window.fillRectangle(0,0,500,850,Xwindow::White);
+  window.drawString(0, 10, "Level:  " + to_string(level), Xwindow::Black);
+  window.drawString(0, 25, "Score:  " + to_string(score), Xwindow::Black);
+  window.drawString(0, 40, "HiScore:  " + to_string(hiScore), Xwindow::Black);
+  window.drawString(250, 20, "Next:", Xwindow::Black);
+
+  // draw nextBlock
+  if (nextBlock == "I"){
+    window.fillRectangle(300,50,200,50, Xwindow::Cyan);
+  } else if (nextBlock == "J"){
+    window.fillRectangle(300,0,50,50, Xwindow::Blue);
+    window.fillRectangle(300,50,150,50, Xwindow::Blue);
+  } else if (nextBlock == "L"){
+    window.fillRectangle(300,50,150,50, Xwindow::Orange);
+    window.fillRectangle(400,0,50,50, Xwindow::Orange);
+  } else if (nextBlock == "O"){
+    window.fillRectangle(300,0,100,100,Xwindow::Yellow);
+  } else if (nextBlock == "S"){
+    window.fillRectangle(350,0,100,50,Xwindow::Green);
+    window.fillRectangle(300,50,100,50,Xwindow::Green);
+  } else if (nextBlock == "Z"){
+    window.fillRectangle(300,0,100,50,Xwindow::Red);
+    window.fillRectangle(350,50,100,50,Xwindow::Red);
+  } else if (nextBlock == "T"){
+    window.fillRectangle(350,50,50,50,Xwindow::Magenta);
+    window.fillRectangle(300,0,150,50,Xwindow::Magenta);
+  }
+  for (int i = 14; i >= 0; i--){
+    for (int j = 0; j < 10; j++){
+      if (board[j][i] == "I") {
+        window.fillRectangle(j*50, abs(850-((i+1)*50 + 100)) + 100, 50,50,Xwindow::Cyan);
+      } else if (board[j][i] == "J") {
+        window.fillRectangle(j*50, abs(850-((i+1)*50 + 100)) + 100, 50,50,Xwindow::Blue);
+      } else if (board[j][i] == "L") {
+        window.fillRectangle(j*50, abs(850-((i+1)*50 + 100)) + 100, 50,50,Xwindow::Orange);
+      } else if(board[j][i] == "O") {
+        window.fillRectangle(j*50, abs(850-((i+1)*50 + 100)) + 100, 50,50,Xwindow::Yellow);
+      } else if(board[j][i] == "S") {
+        window.fillRectangle(j*50, abs(850-((i+1)*50 + 100)) + 100, 50,50,Xwindow::Green);
+      } else if(board[j][i] == "Z") {
+        window.fillRectangle(j*50, abs(850-((i+1)*50 + 100)) + 100, 50,50,Xwindow::Red);
+      } else if(board[j][i] == "T") {
+        window.fillRectangle(j*50, abs(850-((i+1)*50 + 100)) + 100, 50,50,Xwindow::Magenta);
+      }
+    }
+  }
+  window.fillRectangle(300,0,1,100,Xwindow::Red);    //draw next box
+  window.fillRectangle(0,100,850,1,Xwindow::Red);    //draw seperating line
 }
 
 void clearLines(){
   bool lineCleared;
   int numCleared = 0;
+
   for (int y = 0; y < 15; y++){
     lineCleared = true;
-  	for (int x =  0; x < 10 && lineCleared == true; x++){
+    for (int x =  0; x < 10 && lineCleared == true; x++){
       if (board[x][y] == " "){
         lineCleared = false;
       }
@@ -53,7 +126,9 @@ void clearLines(){
       y--;
     }
   }
-  score += (level+numCleared)*(level+numCleared);
+  if (numCleared > 0){
+    score += (level+numCleared)*(level+numCleared);
+  }
   if (score > hiScore){
     hiScore=score;
   }
@@ -61,31 +136,55 @@ void clearLines(){
 
 //sets the next block to be placed
 void newBlock() {
-  string currentBlock;
-  if (level == 0){
-    if (level0 >> currentBlock) {
-      if (currentBlock == "I"){
-        activeBlock = new IBlock(level);
-      } else if (currentBlock == "J"){
-        activeBlock = new JBlock(level);
-      } else if (currentBlock == "L"){
-        activeBlock = new LBlock(level);
-      } else if (currentBlock == "O"){
-        activeBlock = new OBlock(level);
-      } else if (currentBlock == "S"){
-        activeBlock = new SBlock(level);
-      } else if (currentBlock == "Z"){
-        activeBlock = new ZBlock(level);
-      }  else if (currentBlock == "T"){
-        activeBlock = new TBlock(level);
-      }
-    } else if (level0.fail()){
-      level0.clear();
+  if (nextBlock == "I"){
+    activeBlock = new IBlock(level);
+  } else if (nextBlock == "J"){
+    activeBlock = new JBlock(level);
+  } else if (nextBlock == "L"){
+    activeBlock = new LBlock(level);
+  } else if (nextBlock == "O"){
+    activeBlock = new OBlock(level);
+  } else if (nextBlock == "S"){
+    activeBlock = new SBlock(level);
+  } else if (nextBlock == "Z"){
+    activeBlock = new ZBlock(level);
+  }  else if (nextBlock == "T"){
+    activeBlock = new TBlock(level);
+  }
+  if (level == 0) {
+    level0 >> nextBlock;
+    if (level0.fail()) {
       level0.close();
       level0.open("sequence.txt");
-      }
-  } else {
-    activeBlock = new TBlock(level);
+      level0 >> nextBlock;
+    }
+  } else if (level == 1) {
+    int i = prng(1,12);
+    if (i == 1) nextBlock = "S";
+    else if (i == 2) nextBlock = "Z";
+    else if (i == 3 | i == 4) nextBlock = "I";
+    else if (i == 5 || i == 6) nextBlock = "J";
+    else if (i == 7 || i == 8) nextBlock = "L";
+    else if (i == 9 || i == 10) nextBlock = "O";
+    else if (i == 11 || i == 12) nextBlock = "T";
+  } else if (level == 2) {
+    int i = prng(1,7);
+    if (i == 1) nextBlock = "I";
+    else if (i == 2) nextBlock = "J";
+    else if (i == 3) nextBlock = "L";
+    else if (i == 4) nextBlock = "O";
+    else if (i == 5) nextBlock = "T";
+    else if (i == 6) nextBlock = "S";
+    else if (i == 7) nextBlock = "Z";
+  } else if (level == 3) {
+    int i = prng(1,9);
+    if (i == 1) nextBlock = "I";
+    else if (i == 2) nextBlock = "J";
+    else if (i == 3) nextBlock = "L";
+    else if (i == 4) nextBlock = "O";
+    else if (i == 5) nextBlock = "T";
+    else if (i == 6 || i == 7) nextBlock = "S";
+    else if (i == 8 || i == 9) nextBlock = "Z";
   }
 }
 
@@ -102,6 +201,7 @@ void startGame(){
 }
 
 int main (){
+  level0 >> nextBlock;
   string input;
   string command;
   string repetitions;
@@ -119,6 +219,7 @@ int main (){
 
   startGame();
   textdraw();
+  graphicsDraw();
   while (cin >> input){
     repetitionNumber = 1;
     repetitions = "";
@@ -193,6 +294,7 @@ int main (){
       startGame();
     }
     textdraw();
+    graphicsDraw();
   }
   return 0;
 }
